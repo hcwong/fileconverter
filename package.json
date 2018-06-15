@@ -1,0 +1,19 @@
+{
+  "name": "fileconverter",
+  "version": "1.0.0",
+  "description": "Convert different file types - fun",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "env-cmd ./.env node src/index.js"
+  },
+  "author": "Joshua Wong",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.6.1",
+    "env-cmd": "^8.0.2",
+    "express": "^4.16.3",
+    "morgan": "^1.9.0",
+    "tmp": "0.0.33"
+  }
+}

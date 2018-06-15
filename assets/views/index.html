@@ -1,0 +1,19 @@
+<html>
+<head>
+  <title>Convert your File Now!</title>
+</head>
+<body>
+  <main>
+    <div>Work in progress. Use the below form to upload your selected Mp4</div>
+    <form class='upload-form' action='/upload' method='POST'>
+      <div>Maximum size: 10kb</div>
+      <label>Click the button to upload!</label>
+      <!-- TODO: CSRF Token for validation. Look into the proper validation process -->
+      <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}" /> 
+      <input type='file' name='mp4-upload' id='mp4-upload'>
+      <input type='submit' name='upload-form-submit' id='mp4-upload-submit' disabled>
+    </form>
+    <div class='warning-message'></div>
+  </main>
+</body>
+</html>
