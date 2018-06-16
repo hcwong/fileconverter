@@ -1,23 +1,23 @@
-const express = require('express');
+const express = require('express'); 
 const async = require('async');
 const path = require('path');
 const morgan = require('morgan');
 const multer = require('multer');
 const tmp = require('tmp');
+const fs = require('fs');
 
 const app = express();
 const tmpdir = tmp.dirSync();
 const upload = multer({dest: tmpdir.name});
-const root = path.resolve(__dirname+'/../');
+const ROOT = path.resolve(__dirname+'/../');
 
-// TODO: Use morgan to do logging
-
-// Serve static files
 const PORT = 5000 || process.env.PORT;
-app.use('/static', express.static(`${root}/assets/javascript`));
+const accessLogStream = fs.createWriteStream(`${ROOT}/access.log`, {flags: 'a'});
+app.use('/static', express.static(`${ROOT}/assets/javascript`));
+app.use(morgan('short', {stream: accessLogStream}));
 
 app.get('/', async (req, res) => {
-  res.sendFile(`${root}/assets/views/index.html`);
+  res.sendFile(`${ROOT}/assets/views/index.html`);
   // TODO: CSRF Token? Though its probably unnecessary since theres no cookies or logins
 });
 
