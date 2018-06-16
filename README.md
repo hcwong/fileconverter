@@ -2,6 +2,9 @@
 
 This project only aims to convert a mp4 file to flac file. Hopefully using this to try and understand deployment and good response time.
 
+## PreRequisites
+1. Install ffmpeg as will need it to convert the files
+
 ## To Do
 1. Handle the file conversion using some ffmpeg like library
 2. Change the form to use AJAX

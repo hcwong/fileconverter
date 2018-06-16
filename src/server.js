@@ -6,6 +6,8 @@ const multer = require('multer');
 const tmp = require('tmp');
 const fs = require('fs');
 
+const convert = require('./convert');
+
 const app = express();
 const tmpdir = tmp.dirSync();
 const upload = multer({dest: tmpdir.name});
@@ -23,7 +25,9 @@ app.get('/', async (req, res) => {
 
 app.post('/upload', upload.single('mp4-upload'), async (req, res) => {
   console.log('File:', req.file);
+  // TODO: Verify the file is sub 40 kb and that it is an audio file ie not malicious
   // TODO: Do conversion here
+  let convertedFileLocation = await convert.convertFile(req.file.destination, req.file.filename);
   res.send('Placeholder');
   // TODO: After conversion, remove file from tmp storage
 });
