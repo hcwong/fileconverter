@@ -1,12 +1,13 @@
 <html>
 <head>
   <title>Convert your File Now!</title>
+  <script type='text/javascript' src='/static/index.js'></script>
 </head>
 <body>
   <main>
     <div>Work in progress. Use the below form to upload your selected Mp4</div>
     <form class='upload-form' action='/upload' method='POST' enctype='multipart/form-data'>
-      <div>Maximum size: 10kb</div>
+      <div>Maximum size: 40kb</div>
       <label>Click the button to upload!</label>
       <!-- TODO: Is CSRF actually necessary? -->
       <!-- <input type="hidden" name="token" value="{{ csrf_token('delete-item') }}" />  -->
