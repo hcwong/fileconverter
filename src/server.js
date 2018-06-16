@@ -7,7 +7,7 @@ const PORT = 5000 || process.env.PORT;
 
 app.get('/', async (req, res) => {
   res.send('./../assets/views/index.html');
-  // TODO: res.send cookie as well containing CSRF Token
+  // TODO: CSRF Token? Though its probably unnecessary since theres no cookies or logins
 });
 
 app.post('/upload', async (req, res) => {
@@ -17,5 +17,3 @@ app.post('/upload', async (req, res) => {
 
 console.log(`Server started on PORT ${PORT}`);
 app.listen(5000);
-
-

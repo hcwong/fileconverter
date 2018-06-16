@@ -12,6 +12,7 @@
   "dependencies": {
     "async": "^2.6.1",
     "env-cmd": "^8.0.2",
+    "eslint": "^4.19.1",
     "express": "^4.16.3",
     "morgan": "^1.9.0",
     "tmp": "0.0.33"
