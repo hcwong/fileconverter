@@ -8,6 +8,7 @@ const fs = require('fs');
 const util = require('util');
 
 const convert = require('./convert');
+const verify = require('./verify');
 
 const app = express();
 const tmpdir = tmp.dirSync();
@@ -26,10 +27,14 @@ app.get('/', async (req, res) => {
 
 app.post('/upload', upload.single('mp4-upload'), async (req, res) => {
   console.log('File:', req.file);
-  // TODO: Verify the file is sub 40 kb and that it is an audio file ie not malicious
+  // Verify the file size and file type again before proceeding
+  if (!(verify.verifyFileSize(req.file.size) && verify.verifyFileType(req.file.mimetype))) {
+    res.sendStatus(400);
+  }
+
   let convertedFileLocation = await convert.convertFile(req.file.destination, req.file.filename);
   console.log(convertedFileLocation);
-  res.send('Placeholder'); // TODO: Send the proper response via AJAX
+  res.send('Placeholder'); // TODO: Send the proper response via AJAX?
   // Delete the file from tmp storage now (even if its in the tmp folder)
   const unlink = util.promisify(fs.unlink);
   try {
