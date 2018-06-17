@@ -33,7 +33,7 @@ app.post('/upload', upload.single('mp4-upload'), async (req, res) => {
   // Delete the file from tmp storage now (even if its in the tmp folder)
   const unlink = util.promisify(fs.unlink);
   try {
-    unlink(convertedFileLocation);
+    await unlink(convertedFileLocation);
   } catch (err) {
     console.log('Error while deleting file', err);
   }

@@ -3,7 +3,6 @@ const async = require('async');
 
 async function convertFile(directory, filename) {
   try {
-    const unlink = util.promisify(fs.unlink);
     await ffmpegConverter(directory, filename);
     return `${directory}/${filename}`;
   } catch (err) {
