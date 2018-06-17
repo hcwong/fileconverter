@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const multer = require('multer');
 const tmp = require('tmp');
 const fs = require('fs');
+const util = require('util');
 
 const convert = require('./convert');
 
@@ -14,7 +15,7 @@ const upload = multer({dest: tmpdir.name});
 const ROOT = path.resolve(__dirname+'/../');
 
 const PORT = 5000 || process.env.PORT;
-const accessLogStream = fs.createWriteStream(`${ROOT}/access.log`, {flags: 'a'});
+const accessLogStream = fs.createWriteStream(`${ROOT}/log/access.log`, {flags: 'a'});
 app.use('/static', express.static(`${ROOT}/assets/javascript`));
 app.use(morgan('short', {stream: accessLogStream}));
 
@@ -26,10 +27,16 @@ app.get('/', async (req, res) => {
 app.post('/upload', upload.single('mp4-upload'), async (req, res) => {
   console.log('File:', req.file);
   // TODO: Verify the file is sub 40 kb and that it is an audio file ie not malicious
-  // TODO: Do conversion here
   let convertedFileLocation = await convert.convertFile(req.file.destination, req.file.filename);
-  res.send('Placeholder');
-  // TODO: After conversion, remove file from tmp storage
+  console.log(convertedFileLocation);
+  res.send('Placeholder'); // TODO: Send the proper response via AJAX
+  // Delete the file from tmp storage now (even if its in the tmp folder)
+  const unlink = util.promisify(fs.unlink);
+  try {
+    unlink(convertedFileLocation);
+  } catch (err) {
+    console.log('Error while deleting file', err);
+  }
 });
 
 console.log(`Server started on PORT ${PORT}`);

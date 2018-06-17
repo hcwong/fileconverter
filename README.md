@@ -5,6 +5,9 @@ This project only aims to convert a mp4 file to flac file. Hopefully using this 
 ## PreRequisites
 1. Install ffmpeg as will need it to convert the files
 
+## Installation
+Clone, run `npm install` and then run `npm start` to start the server.
+
 ## To Do
 1. Handle the file conversion using some ffmpeg like library
 2. Change the form to use AJAX
