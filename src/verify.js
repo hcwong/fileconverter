@@ -1,4 +1,3 @@
-// TODO: Verify the audio file sent to server
 async function verifyFileType(mimeType) {
   const acceptedTypes = ['audio/x-m4a']
   if (acceptedTypes.indexOf(mimeType) === -1) {

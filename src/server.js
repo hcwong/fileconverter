@@ -36,6 +36,7 @@ app.post('/upload', upload.single('mp4-upload'), async (req, res) => {
   console.log(convertedFileLocation);
   res.send('Placeholder'); // TODO: Send the proper response via AJAX?
   // Delete the file from tmp storage now (even if its in the tmp folder)
+  // TODO: Use res.attachment
   const unlink = util.promisify(fs.unlink);
   try {
     await unlink(convertedFileLocation);

@@ -2,6 +2,7 @@ window.onload = () => {
   document.querySelector('#mp4-upload').addEventListener('change', () => {
     onUpload();
   });
+  onSubmitForm();
 };
 
 function validateFileType(filename) {
@@ -43,4 +44,28 @@ function validateFileSize(file) {
     return false;
   } 
   return true;
+}
+
+function onSubmitForm() {
+  $('.upload-form').submit((e) => {
+    e.preventDefault();
+    let formData = new FormData(this);
+
+    // TODO: change the url website to the droplet address
+    fetch('/upload', {
+      method: 'POST',
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
+    })
+      .then((res) => {
+        console.log('PLACEHOLDER', res);
+        // TODO: Create a download button and attach the returned file there
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("501 Internal Server Error while converting your file");
+      })
+  });
 }
