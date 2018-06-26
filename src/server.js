@@ -14,6 +14,7 @@ const app = express();
 const tmpdir = tmp.dirSync();
 const upload = multer({dest: tmpdir.name});
 const ROOT = path.resolve(__dirname+'/../');
+const unlink = util.promisify(fs.unlink);
 
 const PORT = 5000 || process.env.PORT;
 const accessLogStream = fs.createWriteStream(`${ROOT}/log/access.log`, {flags: 'a'});
@@ -27,21 +28,23 @@ app.get('/', async (req, res) => {
 
 app.post('/upload', upload.single('mp4-upload'), async (req, res) => {
   console.log('File:', req.file);
-  // Verify the file size and file type again before proceeding
-  if (!(verify.verifyFileSize(req.file.size) && verify.verifyFileType(req.file.mimetype))) {
-    res.sendStatus(400);
-  }
-
-  let convertedFileLocation = await convert.convertFile(req.file.destination, req.file.filename);
-  console.log(convertedFileLocation);
-  res.send('Placeholder'); // TODO: Send the proper response via AJAX?
-  // Delete the file from tmp storage now (even if its in the tmp folder)
-  // TODO: Use res.attachment
-  const unlink = util.promisify(fs.unlink);
   try {
-    await unlink(convertedFileLocation);
+     // Verify the file size and file type again before proceeding
+    if (!(verify.verifyFileSize(req.file.size) && verify.verifyFileType(req.file.mimetype))) {
+      res.sendStatus(400);
+    }
+    let convertedFileLocation = await convert.convertFile(req.file.destination, req.file.filename);
+    console.log(convertedFileLocation);
+    res.sendFile(convertedFileLocation, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        unlink(convertedFileLocation);
+      }
+    });
   } catch (err) {
-    console.log('Error while deleting file', err);
+    console.log('Error while converting file', err);
+    res.status(501).send({Error: '501: Error while converting the file'});
   }
 });
 

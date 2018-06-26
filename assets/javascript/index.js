@@ -46,22 +46,26 @@ function validateFileSize(file) {
   return true;
 }
 
+// TOFIX: Cache option on fetch causing failure to send to server
 function onSubmitForm() {
   $('.upload-form').submit((e) => {
     e.preventDefault();
-    let formData = new FormData(this);
+    let form = $('.upload-form')[0];
+    let formData = new FormData(form);  
 
     // TODO: change the url website to the droplet address
     fetch('/upload', {
       method: 'POST',
-      data: formData,
-      cache: false,
-      contentType: false,
-      processData: false,
+      body: formData,
     })
       .then((res) => {
         console.log('PLACEHOLDER', res);
-        // TODO: Create a download button and attach the returned file there
+        return res.blob();
+        $('.download-file').html = '';
+        // TODO: Create a download button and attach the returned blob there
+      })
+      .then((result) => {
+        console.log(result);
       })
       .catch((err) => {
         console.log(err);
