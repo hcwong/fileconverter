@@ -46,12 +46,13 @@ function validateFileSize(file) {
   return true;
 }
 
-// TOFIX: Cache option on fetch causing failure to send to server
 function onSubmitForm() {
   $('.upload-form').submit((e) => {
     e.preventDefault();
     let form = $('.upload-form')[0];
-    let formData = new FormData(form);  
+    let formData = new FormData(form);
+    let originalFileName = $('#mp4-upload')[0].files[0].name.split['.'];
+    $('.download-file').html = "";
 
     // TODO: change the url website to the droplet address
     fetch('/upload', {
@@ -61,15 +62,27 @@ function onSubmitForm() {
       .then((res) => {
         console.log('PLACEHOLDER', res);
         return res.blob();
-        $('.download-file').html = '';
-        // TODO: Create a download button and attach the returned blob there
       })
       .then((result) => {
-        console.log(result);
-      })
+        let returnedFile = result;
+        createDownloadButton(returnedFile, originalFileName);
+      })  
       .catch((err) => {
         console.log(err);
         alert("501 Internal Server Error while converting your file");
-      })
+      });
+  });
+}
+
+function createDownloadButton(returnedFile, originalFileName) {
+  let button = document.createElement('button');
+  let anchorTag = document.createElement('a');
+  anchorTag.href = window.URL.createObjectURL(returnedFile);
+  anchorTag.download = `${originalFileName}.flac`;
+  anchorTag.innerHTML = "Click here to download!";
+  button.appendChild(anchorTag);
+  $('.download-file').append(button);
+  $('.download-file').on('click', () => {
+    anchorTag.click();
   });
 }
