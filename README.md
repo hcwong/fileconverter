@@ -8,9 +8,11 @@ This project only aims to convert a mp4 file to flac file. Hopefully using this 
 ## Installation
 Clone, run `npm install` and then run `npm start` to start the server.
 
+## Deployment
+Deployment using Docker and DigitalOcean. WIP
+
 ## To Do
 3. Web page design
-4. Send the converted form back to the page
 5. Tests
 6. Any other good precautions to take with the form
 7. Deploy using Docker and digitalocean
