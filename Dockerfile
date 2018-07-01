@@ -5,13 +5,12 @@ RUN mkdir -p /fileconverter
 WORKDIR /fileconverter
 
 # copy stuff into the directory
-COPY . /
+COPY . ./
 
 # install local dependencies
 RUN npm install
 
 # expose port
-EXPOSE 5001
+EXPOSE 5000
 
 CMD ["npm", "start"]
-
