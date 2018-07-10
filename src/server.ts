@@ -1,3 +1,4 @@
+
 const express = require('express'); 
 const async = require('async');
 const path = require('path');
@@ -21,21 +22,21 @@ const accessLogStream = fs.createWriteStream(`${ROOT}/log/access.log`, {flags: '
 app.use('/static', express.static(`${ROOT}/assets/javascript`));
 app.use(morgan('short', {stream: accessLogStream}));
 
-app.get('/', async (req, res) => {
+app.get('/', async (req: any, res: any) => {
   res.sendFile(`${ROOT}/assets/views/index.html`);
   // TODO: CSRF Token? Though its probably unnecessary since theres no cookies or logins
 });
 
-app.post('/upload', upload.single('mp4-upload'), async (req, res) => {
+app.post('/upload', upload.single('mp4-upload'), async (req: any, res: any) => {
   console.log('File:', req.file);
   try {
      // Verify the file size and file type again before proceeding
     if (!(verify.verifyFileSize(req.file.size) && verify.verifyFileType(req.file.mimetype))) {
       res.sendStatus(400);
     }
-    let convertedFileLocation = await convert.convertFile(req.file.destination, req.file.filename);
+    let convertedFileLocation: string = await convert.convertFile(req.file.destination, req.file.filename);
     console.log(convertedFileLocation);
-    res.sendFile(convertedFileLocation, (err) => {
+    res.sendFile(convertedFileLocation, (err: Error) => {
       if (err) {
         console.log(err);
       } else {
