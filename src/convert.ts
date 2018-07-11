@@ -1,11 +1,11 @@
 const ffmpeg = require('fluent-ffmpeg');
-const async = require('async');
-const util = require('util');
 const fs = require('fs');
+const util = require('util');
+const async = require('async');
 
 const unlink = util.promisify(fs.unlink);
 
-async function convertFile(directory, filename) {
+async function convertFile(directory: string, filename: string) {
   try {
     await ffmpegConverter(directory, filename);
     unlink(`${directory}/${filename}`);
@@ -15,26 +15,26 @@ async function convertFile(directory, filename) {
   }
 }
 
-async function ffmpegConverter(directory, filename) {
+async function ffmpegConverter(directory: string, filename: string) {
   return new Promise((resolve, reject) => {
     ffmpeg(`${directory}/${filename}`)
       // TODO: Check the input format. Might not be always M4a
       .inputFormat('m4a')
       .audioChannels(1)
       .toFormat('flac')
-      .on('start', function(c) {
+      .on('start', () => {
         console.log('Spawned Ffmpeg with command');
       })
-      .on('stderr', function(stderrLine) {
+      .on('stderr', (stderrLine: any) => {
         console.log('Stderr output: ' + stderrLine);
       })
-      .on('error', function(err, stdout, stderr) {
+      .on('error', (err: Error, stdout: any, stderr: any) => {
         console.log('Cannot process video: ' + err.message);
         console.log(stdout);
         console.log(stderr);
         reject();
       })
-      .on('progress', function(progress) {
+      .on('progress', (progress: any) => {
         console.log('Processing: ' + progress.percent + '% done');
       })  
       .on('end', function() {

@@ -51,7 +51,7 @@ function onSubmitForm() {
     e.preventDefault();
     let form = $('.upload-form')[0];
     let formData = new FormData(form);
-    let originalFileName = $('#mp4-upload')[0].files[0].name.split['.'];
+    let originalFileName = $('#mp4-upload')[0].files[0].name.split('.')[0];
     $('.download-file').html = "";
 
     // TODO: change the url website to the droplet address
@@ -82,7 +82,4 @@ function createDownloadButton(returnedFile, originalFileName) {
   anchorTag.innerHTML = "Click here to download!";
   button.appendChild(anchorTag);
   $('.download-file').append(button);
-  $('.download-file').on('click', () => {
-    anchorTag.click();
-  });
 }

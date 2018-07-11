@@ -1,4 +1,4 @@
-
+export {} // Or Typescript will throw errors
 const express = require('express'); 
 const async = require('async');
 const path = require('path');

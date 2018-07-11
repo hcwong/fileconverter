@@ -10,6 +10,9 @@ COPY . ./
 # install local dependencies
 RUN npm install
 
+# install typescript globally
+RUN npm install -g typescript
+
 # expose port
 EXPOSE 5000
 
