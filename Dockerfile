@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:alpine
 
 # create app directory
 RUN mkdir -p /fileconverter
@@ -7,13 +7,12 @@ WORKDIR /fileconverter
 # copy stuff into the directory
 COPY . ./ 
 
+# Download ffmpeg.
+RUN apk add --no-cache ffmpeg
+
 # install local dependencies
-RUN npm install
-
+RUN npm config set unsafe-perm true && npm install
 RUN npm install -g typescript
-
-# Install FFMPEG
-RUN apt-get update && apt-get install -y ffmpeg
 
 # expose port
 EXPOSE 5000

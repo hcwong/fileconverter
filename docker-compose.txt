@@ -1,3 +1,5 @@
+Node container not able to find ffmpeg with docker-compose, so installed ffmpeg directly
+in the dockerfile
 version: '3'
 services: 
   web:
