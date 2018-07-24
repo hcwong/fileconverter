@@ -5,13 +5,15 @@ RUN mkdir -p /fileconverter
 WORKDIR /fileconverter
 
 # copy stuff into the directory
-COPY . ./
+COPY . ./ 
 
 # install local dependencies
 RUN npm install
 
-# install typescript globally
 RUN npm install -g typescript
+
+# Install FFMPEG
+RUN apt-get update && apt-get install -y ffmpeg
 
 # expose port
 EXPOSE 5000

@@ -5,4 +5,4 @@ services:
     ports: 
       - "5000:5000"
   ffmpeg:
-    image: "jrottenberg/ffmpeg:3.3"
+    image: "jrottenberg/ffmpeg:3.4"
